@@ -1,0 +1,16 @@
+.mainpage-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.todo-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+

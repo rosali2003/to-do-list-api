@@ -1,0 +1,10 @@
+.todo-body {
+    border-style: solid;
+    border-color: black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
