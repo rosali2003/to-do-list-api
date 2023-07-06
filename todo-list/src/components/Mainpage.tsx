@@ -3,7 +3,7 @@ import { TodoCard } from "./TodoCard";
 import styles from "./Mainpage.module.css";
 import React from "react";
 
-export const Mainpage = () => {
+const Mainpage = () => {
   const [tasks, setTasks] = useState([
     {
       message: "wash dishes",
@@ -54,5 +54,5 @@ export const Mainpage = () => {
   );
 };
 
-
-//add tests, 
+export default Mainpage
+//add tests,
