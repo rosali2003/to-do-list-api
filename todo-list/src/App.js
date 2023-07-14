@@ -1,13 +1,7 @@
 import './App.css';
 import React from 'react'
-import axios from 'axios';
 import Mainpage from './components/Mainpage'
-
-const API_URL = "http://localhost:3000/api/v1/book";
-
-function getAPIData() {
-  return axios.get(API_URL).then((response) => response.data)
-}
+import Mainpage from './components/Mainpage'
 
 function App() {
   return (

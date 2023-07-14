@@ -2,6 +2,7 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { TodoCard } from "./TodoCard";
 import styles from "./Mainpage.module.css";
 import React from "react";
+import axios from 'axios';
 
 const Mainpage = () => {
   const [tasks, setTasks] = useState([
@@ -20,6 +21,12 @@ const Mainpage = () => {
       ...prevTasks,
       { message: newTask, completed: false },
     ]);
+
+    if(newTask.length === 0) return;
+
+    axios.post("http://localhost:3000/api/v1/tasks/create", {newTask})
+    .then(response => console.log(response))
+    .catch(error => console.error(error))
 
     setNewTask("");
   };
