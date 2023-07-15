@@ -1,11 +1,7 @@
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      resources :tasks
-    end
-  end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+    get '/tasks', to: 'tasks#index'
+    post '/tasks', to: 'tasks#create'
+    get '/tasks/create', to: 'tasks#new'
+    post '/tasks/create', to: 'tasks#create'
+    get '/tasks/:id', to: 'tasks#show', as: 'task'
 end
