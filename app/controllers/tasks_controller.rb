@@ -5,6 +5,7 @@ class TasksController < ApplicationController
   # GET /tasks or /tasks.json
   def index
     @tasks = Task.all
+    render json: @tasks
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -24,7 +25,7 @@ class TasksController < ApplicationController
   # POST /tasks or /tasks.json
   def create
     @task = Task.new(task_params)
-    
+
     if @task.save
       puts 'task successfully created'
       redirect_to task_path(@task)
@@ -51,7 +52,7 @@ class TasksController < ApplicationController
   def destroy
     @resource = Task.find(params[:id])
     @resource.destroy
-    
+
     redirect_to '/tasks', notice: 'Resource was successfully deleted.'
   end
 

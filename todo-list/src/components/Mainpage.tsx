@@ -1,4 +1,10 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+} from "react";
 import { TodoCard } from "./TodoCard";
 import styles from "./Mainpage.module.css";
 import React from "react";
@@ -21,31 +27,19 @@ const Mainpage = () => {
 
   const [newTask, setNewTask] = useState<string>("");
 
-  // useEffect(() => {
-  //   const fetchTasks = async () => {
-  //     try {
-  //       const response = await api.get("http://localhost:3000/tasks");
-  //       setTasks(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchTasks();
-  // }, []);
+  //can add useMemo so if tasks does not change in between renders, it uses the same one
+  const fetchTasks = async () => {
+    try {
+      const response = await api.get("http://localhost:3000/tasks");
+      setTasks(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await api.get("http://localhost:3000/tasks");
-        setTasks(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchTasks();
-  }, [tasks]);
+  },[])
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,7 +89,8 @@ const Mainpage = () => {
         <div className="row">
           {tasks.map((task, index) => (
             <TodoCard
-              key={task.message}
+              //change this to an id since index is based on position in array
+              key={index}
               message={task.message}
               completed={task.completed}
               tasks={tasks}
