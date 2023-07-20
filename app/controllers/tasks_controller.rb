@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   # before_action :set_task, only: %i[ show edit update destroy ]
+  skip_before_action :verify_authenticity_token
 
   # GET /tasks or /tasks.json
   def index
@@ -48,12 +49,10 @@ class TasksController < ApplicationController
 
   # DELETE /tasks/1 or /tasks/1.json
   def destroy
-    @task.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tasks_url, notice: "Task was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @resource = Task.find(params[:id])
+    @resource.destroy
+    
+    redirect_to '/tasks', notice: 'Resource was successfully deleted.'
   end
 
   private
