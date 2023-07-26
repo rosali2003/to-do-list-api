@@ -39,7 +39,7 @@ const Mainpage = () => {
 
   useEffect(() => {
     fetchTasks();
-  },[])
+  }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,8 +85,7 @@ const Mainpage = () => {
         <button type="submit">Create Task</button>
       </form>
 
-      <div className={`container text-center`}>
-        <div className="row">
+      <div className="col-md-4">
           {tasks.map((task, index) => (
             <TodoCard
               //change this to an id since index is based on position in array
@@ -97,7 +96,6 @@ const Mainpage = () => {
             />
           ))}
         </div>
-      </div>
     </section>
   );
 };
