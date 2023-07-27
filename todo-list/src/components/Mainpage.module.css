@@ -4,6 +4,8 @@
     align-items: center;
     margin: 0;
     flex-direction: column;
+    background-color: #ADD8E6
+
 }
 
 .todo-list {
@@ -11,8 +13,10 @@
     flex-wrap: wrap;
 }
 
-/* .todo-item {
-   display: flex;
-   flex-wrap: wrap;
-   flex-direction: column;
-} */
+.title {
+    font-weight: bold;
+}
+
+h6 {
+    font-weight: bold;
+}

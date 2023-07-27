@@ -72,7 +72,8 @@ const Mainpage = () => {
 
   return (
     <section className={styles["mainpage-body"]}>
-      <h1>To-do app</h1>
+      <h1 className={styles["title"]}>To-do app</h1>
+      <h6>Enter your todos!</h6>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

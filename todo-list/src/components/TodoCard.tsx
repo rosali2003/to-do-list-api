@@ -10,7 +10,7 @@ interface TodoCardProps {
 export const TodoCard: React.FC<TodoCardProps> = ({ message, completed, tasks }) => {
 
   const handleDelete = () => {
-    axios.delete(`http://localhost:3000/tasks/index`)
+    axios.delete(`http://localhost:3000/tasks/${index}`)
     .then(response => {
       if (response.data.status === 'SUCCESS') {
         // The post was deleted successfully
