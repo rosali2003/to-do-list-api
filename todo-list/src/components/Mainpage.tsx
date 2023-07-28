@@ -18,6 +18,7 @@ axios.defaults.headers.common["X-CSRF-Token"] = csrfToken;
 const Mainpage = () => {
   const [tasks, setTasks] = useState([
     {
+      id: 1,
       message: "wash dishes",
       completed: false,
     },
@@ -31,6 +32,7 @@ const Mainpage = () => {
   const fetchTasks = async () => {
     try {
       const response = await api.get("http://localhost:3000/tasks");
+      console.log(response.data)
       setTasks(response.data);
     } catch (error) {
       console.error(error);
@@ -43,10 +45,11 @@ const Mainpage = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const newId = tasks[tasks.length - 1].id + 1;
 
     setTasks((prevTasks) => [
       ...prevTasks,
-      { message: newTask, completed: false },
+      { id: newId, message: newTask, completed: false },
     ]);
 
     if (newTask.length === 0) return;
@@ -89,11 +92,12 @@ const Mainpage = () => {
       <div className="col-md-4">
           {tasks.map((task, index) => (
             <TodoCard
-              //change this to an id since index is based on position in array
               key={index}
+              id={task.id}
               message={task.message}
               completed={task.completed}
               tasks={tasks}
+              setTasks={setTasks}
             />
           ))}
         </div>
