@@ -59,10 +59,11 @@ class TasksController < ApplicationController
 
   # DELETE /tasks/1 or /tasks/1.json
   def destroy
+    puts 'enters'
     @resource = Task.find(params[:id])
     @resource.destroy
 
-    redirect_to '/tasks', notice: 'Resource was successfully deleted.'
+    render json: { status: 'SUCCESS', message: 'Task deleted' }
   end
 
   private

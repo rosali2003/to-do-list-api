@@ -7,6 +7,7 @@ interface TodoCardProps {
   message: string;
   completed: boolean;
   tasks: { message: string; completed: boolean }[];
+  setTasks: React.Dispatch<React.SetStateAction<{ id: number, message: string; completed: boolean }[]>>;
 }
 
 export const TodoCard: React.FC<TodoCardProps> = ({
@@ -14,6 +15,7 @@ export const TodoCard: React.FC<TodoCardProps> = ({
   message,
   completed,
   tasks,
+  setTasks
 }) => {
   const handleDelete = () => {
     console.log("route", `http://localhost:3000/tasks/${id}`);
@@ -21,7 +23,9 @@ export const TodoCard: React.FC<TodoCardProps> = ({
       .delete(`http://localhost:3000/tasks/${id}`)
       .then((response) => {
         if (response.data.status === "SUCCESS") {
+          console.log("entering")
           console.log("Post deleted successfully:", response.data);
+          setTasks((tasks) => tasks.filter((task) => task.id !== id))
           alert("Post deleted successfully");
         } else {
           // There was an error

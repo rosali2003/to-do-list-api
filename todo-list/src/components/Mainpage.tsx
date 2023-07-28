@@ -97,6 +97,7 @@ const Mainpage = () => {
               message={task.message}
               completed={task.completed}
               tasks={tasks}
+              setTasks={setTasks}
             />
           ))}
         </div>
