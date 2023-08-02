@@ -6,5 +6,16 @@
     flex-direction: column;
     flex-wrap: wrap;
     text-align: center;
+    margin: 5px;
+    border-radius: 5px; 
 }
 
+.completed-label {
+    padding: 5px;
+}
+
+.delete-button {
+    margin: 5px;
+    border-radius: 5px;
+    
+}
