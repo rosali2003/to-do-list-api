@@ -7,7 +7,9 @@ interface TodoCardProps {
   message: string;
   completed: boolean;
   tasks: { message: string; completed: boolean }[];
-  setTasks: React.Dispatch<React.SetStateAction<{ id: number, message: string; completed: boolean }[]>>;
+  setTasks: React.Dispatch<
+    React.SetStateAction<{ id: number; message: string; completed: boolean }[]>
+  >;
 }
 
 export const TodoCard: React.FC<TodoCardProps> = ({
@@ -15,7 +17,7 @@ export const TodoCard: React.FC<TodoCardProps> = ({
   message,
   completed,
   tasks,
-  setTasks
+  setTasks,
 }) => {
   const handleDelete = () => {
     console.log("route", `http://localhost:3000/tasks/${id}`);
@@ -23,9 +25,9 @@ export const TodoCard: React.FC<TodoCardProps> = ({
       .delete(`http://localhost:3000/tasks/${id}`)
       .then((response) => {
         if (response.data.status === "SUCCESS") {
-          console.log("entering")
+          console.log("entering");
           console.log("Post deleted successfully:", response.data);
-          setTasks((tasks) => tasks.filter((task) => task.id !== id))
+          setTasks((tasks) => tasks.filter((task) => task.id !== id));
           alert("Post deleted successfully");
         } else {
           // There was an error
@@ -63,14 +65,16 @@ export const TodoCard: React.FC<TodoCardProps> = ({
   return (
     <section className={styles["todo-body"]}>
       {`Task: ${message}`}
-      <label htmlFor="completed">Completed: </label>
-      <input
-        type="checkbox"
-        name="checkbox"
-        value={completed.toString()}
-        onChange={handleCompleted}
-      ></input>
-      <button onClick={handleDelete}>delete task</button>
+      <div>
+        <label htmlFor="completed" className={styles["completed-label"]}>Completed:  </label>
+        <input
+          type="checkbox"
+          name="checkbox"
+          value={completed.toString()}
+          onChange={handleCompleted}
+        ></input>
+      </div>
+      <button onClick={handleDelete} className={styles["delete-button"]}>delete task</button>
     </section>
   );
 };

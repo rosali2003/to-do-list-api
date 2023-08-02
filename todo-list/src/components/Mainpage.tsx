@@ -10,12 +10,18 @@ import styles from "./Mainpage.module.css";
 import React from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useOpenAIApi } from "./useOpenAIApi";
 
 const csrfToken = Cookies.get("CSRF-TOKEN");
 
 axios.defaults.headers.common["X-CSRF-Token"] = csrfToken;
 
 const Mainpage = () => {
+  const { autoComplete } = useOpenAIApi();
+
+  const handleGenerate = () => {
+    autoComplete();
+  }
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -101,6 +107,8 @@ const Mainpage = () => {
             />
           ))}
         </div>
+
+      <button onClick={handleGenerate}>Generate</button>
     </section>
   );
 };
