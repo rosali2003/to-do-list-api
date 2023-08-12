@@ -32,8 +32,9 @@ const Mainpage = () => {
   const fetchTasks = async () => {
     try {
       const response = await api.get("http://localhost:3000/tasks");
-      console.log(response.data)
-      setTasks(response.data);
+      console.log(response.data);
+
+      response.data;
     } catch (error) {
       console.error(error);
     }
@@ -77,10 +78,11 @@ const Mainpage = () => {
     <section className={styles["mainpage-body"]}>
       <h1 className={styles["title"]}>To-do app</h1>
       <h6>Enter your todos!</h6>
-      <form onSubmit={handleSubmit}>
+      <form data-testid="task-form" onSubmit={handleSubmit}>
         <input
           type="text"
           className="task-input"
+          data-testid="task-input"
           value={newTask}
           onChange={(event: ChangeEvent<HTMLInputElement>): void => {
             setNewTask(event.target.value);
@@ -90,17 +92,18 @@ const Mainpage = () => {
       </form>
 
       <div className="col-md-4">
-          {tasks.map((task, index) => (
-            <TodoCard
-              key={index}
-              id={task.id}
-              message={task.message}
-              completed={task.completed}
-              tasks={tasks}
-              setTasks={setTasks}
-            />
-          ))}
-        </div>
+        {console.log("in render ", tasks)}
+        {tasks.map((task, index) => (
+          <TodoCard
+            key={index}
+            id={task.id}
+            message={task.message}
+            completed={task.completed}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
+        ))}
+      </div>
     </section>
   );
 };
