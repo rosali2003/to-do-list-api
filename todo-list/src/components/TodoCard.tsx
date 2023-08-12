@@ -25,6 +25,7 @@ export const TodoCard: React.FC<TodoCardProps> = ({
       .delete(`http://localhost:3000/tasks/${id}`)
       .then((response) => {
         if (response.data.status === "SUCCESS") {
+          console.log("entering");
           console.log("Post deleted successfully:", response.data);
           setTasks((tasks) => tasks.filter((task) => task.id !== id));
           alert("Post deleted successfully");

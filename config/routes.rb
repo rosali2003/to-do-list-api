@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'pages/home'
     get '/tasks', to: 'tasks#index'
     post '/tasks', to: 'tasks#create'
     get '/tasks/create', to: 'tasks#new'
@@ -6,4 +7,5 @@ Rails.application.routes.draw do
     get '/tasks/:id', to: 'tasks#show', as: 'task'
     delete '/tasks/:id', to: 'tasks#destroy'
     put '/tasks/:id', to: 'tasks#update'
+    post 'pages/ai_request', to: 'pages#ai_request'
 end
