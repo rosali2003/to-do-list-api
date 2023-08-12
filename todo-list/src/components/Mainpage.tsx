@@ -17,11 +17,7 @@ const csrfToken = Cookies.get("CSRF-TOKEN");
 axios.defaults.headers.common["X-CSRF-Token"] = csrfToken;
 
 const Mainpage = () => {
-  const { autoComplete } = useOpenAIApi();
 
-  const handleGenerate = () => {
-    autoComplete();
-  }
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -34,11 +30,29 @@ const Mainpage = () => {
 
   const [newTask, setNewTask] = useState<string>("");
 
+  const [generatedIdea, setGeneratedIdea] = useState<string>("");
+
+  const fetchGenerated = async () => {
+    console.log("entering")
+      try {
+        const response = await api.post("http://localhost:3000/pages/ai_request", {
+          ai_request: {
+            prompt: 'create list of tasks',
+            ai_model: 'ada'
+          }
+        });
+        console.log("generated text", response.data.generated_idea)
+        setGeneratedIdea(response.data.generated_idea);
+      } catch (error) {
+        console.error(error);
+      }
+  }
+
   //can add useMemo so if tasks does not change in between renders, it uses the same one
   const fetchTasks = async () => {
     try {
       const response = await api.get("http://localhost:3000/tasks");
-      console.log(response.data)
+      // console.log("response.data", response.data)
       setTasks(response.data);
     } catch (error) {
       console.error(error);
@@ -108,7 +122,8 @@ const Mainpage = () => {
           ))}
         </div>
 
-      <button onClick={handleGenerate}>Generate</button>
+      <button onClick={fetchGenerated}>Generate</button>
+      <p>{generatedIdea}</p>
     </section>
   );
 };
