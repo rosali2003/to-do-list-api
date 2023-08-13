@@ -2,15 +2,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
-    flex-wrap: wrap;
     flex-direction: column;
+    background-color: #ADD8E6
+
 }
 
 .todo-list {
     display: flex;
     flex-wrap: wrap;
-    padding: 20px;
 }
 
+.title {
+    font-weight: bold;
+}
+
+h6 {
+    font-weight: bold;
+}

@@ -1,43 +1,107 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+} from "react";
 import { TodoCard } from "./TodoCard";
 import styles from "./Mainpage.module.css";
 import React from "react";
-import axios from 'axios';
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useOpenAIApi } from "./useOpenAIApi";
+
+const csrfToken = Cookies.get("CSRF-TOKEN");
+
+axios.defaults.headers.common["X-CSRF-Token"] = csrfToken;
 
 const Mainpage = () => {
+
   const [tasks, setTasks] = useState([
     {
+      id: 1,
       message: "wash dishes",
       completed: false,
     },
   ]);
 
+  const api = axios.create();
+
   const [newTask, setNewTask] = useState<string>("");
+
+  const [generatedIdea, setGeneratedIdea] = useState<string>("");
+
+  const fetchGenerated = async () => {
+    console.log("entering")
+      try {
+        const response = await api.post("http://localhost:3000/pages/ai_request", {
+          ai_request: {
+            prompt: 'create list of tasks',
+            ai_model: 'ada'
+          }
+        });
+        console.log("generated text", response.data.generated_idea)
+        setGeneratedIdea(response.data.generated_idea);
+      } catch (error) {
+        console.error(error);
+      }
+  }
+
+  //can add useMemo so if tasks does not change in between renders, it uses the same one
+  const fetchTasks = async () => {
+    try {
+      const response = await api.get("http://localhost:3000/tasks");
+      // console.log("response.data", response.data)
+      setTasks(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const newId = tasks[tasks.length - 1].id + 1;
 
     setTasks((prevTasks) => [
       ...prevTasks,
-      { message: newTask, completed: false },
+      { id: newId, message: newTask, completed: false },
     ]);
 
-    if(newTask.length === 0) return;
+    if (newTask.length === 0) return;
 
-    axios.post("http://localhost:3000/api/v1/tasks/create", {newTask})
-    .then(response => console.log(response))
-    .catch(error => console.error(error))
+    const url = "http://localhost:3000/tasks/create";
+    const data = {
+      message: newTask,
+      completed: false,
+    };
+
+    console.log("csrfToken", csrfToken);
+    api
+      .post(url, data, {
+        headers: {
+          "x-xsrf-token": csrfToken,
+        },
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.error(error));
 
     setNewTask("");
   };
 
   return (
     <section className={styles["mainpage-body"]}>
-      <h1>To-do app</h1>
-      <form onSubmit={handleSubmit}>
+      <h1 className={styles["title"]}>To-do app</h1>
+      <h6>Enter your todos!</h6>
+      <form data-testid="task-form" onSubmit={handleSubmit}>
         <input
           type="text"
           className="task-input"
+          data-testid="task-input"
           value={newTask}
           onChange={(event: ChangeEvent<HTMLInputElement>): void => {
             setNewTask(event.target.value);
@@ -46,20 +110,24 @@ const Mainpage = () => {
         <button type="submit">Create Task</button>
       </form>
 
+      <div className="col-md-4">
+          {tasks.map((task, index) => (
+            <TodoCard
+              key={index}
+              id={task.id}
+              message={task.message}
+              completed={task.completed}
+              tasks={tasks}
+              setTasks={setTasks}
+            />
+          ))}
+        </div>
 
-      <div className={styles["todo-list"]}>
-        {tasks.map((task, index) => (
-          <TodoCard
-            key={task.message}
-            message={task.message}
-            completed={task.completed}
-            tasks={tasks} //is this the right way to do it? is there a better way?
-          />
-        ))}
-      </div>
+      <button onClick={fetchGenerated}>Generate</button>
+      <p>{generatedIdea}</p>
     </section>
   );
 };
 
-export default Mainpage
+export default Mainpage;
 //add tests,
