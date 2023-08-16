@@ -95,8 +95,11 @@ const Mainpage = () => {
 
   return (
     <section className={styles["mainpage-body"]}>
-      <h1 className={styles["title"]}>To-do app</h1>
-      <h6>Enter your todos!</h6>
+      <div className={styles["navbar"]}>
+        <span className={styles["title"]}>Task Tracker</span>
+        
+      </div>
+      <h4>Enter your todos!</h4>
       <form data-testid="task-form" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -110,6 +113,7 @@ const Mainpage = () => {
         <button type="submit">Create Task</button>
       </form>
 
+        <div className={styles["todos"]}>
       <div className="col-md-4">
           {tasks.map((task, index) => (
             <TodoCard
@@ -122,7 +126,7 @@ const Mainpage = () => {
             />
           ))}
         </div>
-
+        </div>
       <button onClick={fetchGenerated}>Generate</button>
       <p>{generatedIdea}</p>
     </section>
