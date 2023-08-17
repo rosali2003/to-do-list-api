@@ -4,17 +4,14 @@
     align-items: center;
     margin: 0;
     flex-direction: column;
-    background-color: #ADD8E6
-
 }
 
 .widgets-container {
-    display:flex;
-    /* align-items: flex-start; */
+    /* does not get inherited */
+    display: flex;
     width: 90%;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin: 0 auto;
-    /* margin-right: auto; */
 }
 
 .todo-list {
@@ -31,7 +28,7 @@ h6 {
 }
 
 .navbar {
-    background-color: yellow;
+    background-color:#F4BE25;
     width:100%;
     height: 100%;
     padding: 20px;
@@ -39,6 +36,11 @@ h6 {
 }
 
 .calendar-block {
-    background-color: grey;
+    background-color: #F4BE25;
     padding: 5px;
+}
+
+.quote-container {
+    display: flex;
+    align-items: center;
 }

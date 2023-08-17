@@ -126,10 +126,12 @@ const Mainpage = () => {
               />
             ))}
           </div>
-          <button onClick={fetchGenerated}>Generate</button>
-          <p>{generatedIdea}</p>
         </div>
         <div className={styles["calendar-block"]}>Calendar rectangle</div>
+        <section className={styles["quote-container"]}>
+          <button onClick={fetchGenerated}>Generate</button>
+          <p>{generatedIdea}</p>
+        </section>
       </div>
     </section>
   );
