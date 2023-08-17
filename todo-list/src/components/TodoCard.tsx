@@ -64,7 +64,7 @@ export const TodoCard: React.FC<TodoCardProps> = ({
   };
   return (
     <section className={styles["todo-body"]}>
-      {`Task: ${message}`}
+      {message}
       <div>
         <label htmlFor="completed" className={styles["completed-label"]}>Completed:  </label>
         <input
