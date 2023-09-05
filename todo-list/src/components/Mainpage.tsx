@@ -11,6 +11,63 @@ import React from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useOpenAIApi } from "./useOpenAIApi";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBbf1E4J10hk9J2SpgytjGDxP-CYLcHd5g",
+  authDomain: "agendify-3cb32.firebaseapp.com",
+  projectId: "agendify-3cb32",
+  storageBucket: "agendify-3cb32.appspot.com",
+  messagingSenderId: "567748474164",
+  appId: "1:567748474164:web:b3c616b48d87c47013e161",
+  measurementId: "G-XG3XJV4V2Y"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+const provider = new GoogleAuthProvider(); 
+
+const auth = getAuth();
+const handleLogin = () => {
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+}
+
+// Set up a listener for the auth state
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, redirect to the desired page
+    window.location.href = "localhost:3000";
+  } else {
+    // User is not signed in
+  }
+});
+
 
 const csrfToken = Cookies.get("CSRF-TOKEN");
 
@@ -131,6 +188,9 @@ const Mainpage = () => {
         <section className={styles["quote-container"]}>
           <button onClick={fetchGenerated}>Generate</button>
           <p>{generatedIdea}</p>
+        </section>
+        <section className={styles["login-block"]}>
+          <button onClick={handleLogin}>Login with Google</button>
         </section>
       </div>
     </section>
