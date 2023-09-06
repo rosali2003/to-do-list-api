@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  get 'pages/home'
-    get '/tasks', to: 'tasks#index'
+    root to: 'tasks#index'
     post '/tasks', to: 'tasks#create'
     get '/tasks/create', to: 'tasks#new'
     post '/tasks/create', to: 'tasks#create'
