@@ -14,6 +14,8 @@ import { useOpenAIApi } from "./useOpenAIApi";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useGoogleCalendar } from "./useGoogleCalendar"; 
+import Button from './Button';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,7 +29,7 @@ const firebaseConfig = {
   messagingSenderId: "567748474164",
   appId: "1:567748474164:web:b3c616b48d87c47013e161",
   measurementId: "G-XG3XJV4V2Y"
-};
+}
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -62,7 +64,7 @@ const handleLogin = () => {
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, redirect to the desired page
-    window.location.href = "localhost:3000";
+    window.location.href = "localhost:3001";
   } else {
     // User is not signed in
   }
@@ -88,6 +90,7 @@ const Mainpage = () => {
 
   const [generatedIdea, setGeneratedIdea] = useState<string>("");
 
+  const { loginGoogleCalendar } = useGoogleCalendar();
   const fetchGenerated = async () => {
     console.log("entering");
     try {
@@ -184,14 +187,13 @@ const Mainpage = () => {
             ))}
           </div>
         </div>
-        <div className={styles["calendar-block"]}>Calendar rectangle</div>
         <section className={styles["quote-container"]}>
-          <button onClick={fetchGenerated}>Generate</button>
+          <button onClick={fetchGenerated}>Quote of the day</button>
           <p>{generatedIdea}</p>
         </section>
-        <section className={styles["login-block"]}>
-          <button onClick={handleLogin}>Login with Google</button>
-        </section>
+        <div>
+        {loginGoogleCalendar()}
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import styles from "./TodoCard.module.css";
-import React from "react";
 import axios from "axios";
+import Button, { Colors } from "./Button";
 
 interface TodoCardProps {
   id: number;
@@ -62,11 +62,14 @@ export const TodoCard: React.FC<TodoCardProps> = ({
         console.error("There was an error!", error);
       });
   };
+
   return (
     <section className={styles["todo-body"]}>
       {message}
       <div>
-        <label htmlFor="completed" className={styles["completed-label"]}>Completed:  </label>
+        <label htmlFor="completed" className={styles["completed-label"]}>
+          Completed:{" "}
+        </label>
         <input
           type="checkbox"
           name="checkbox"
@@ -74,7 +77,12 @@ export const TodoCard: React.FC<TodoCardProps> = ({
           onChange={handleCompleted}
         ></input>
       </div>
-      <button onClick={handleDelete} className={styles["delete-button"]}>delete task</button>
+      <Button color={Colors.Primary} onClick={handleDelete}>
+        delete task
+      </Button>
+      <Button color={Colors.Secondary}>
+        Add to google calendar
+      </Button>
     </section>
   );
 };
